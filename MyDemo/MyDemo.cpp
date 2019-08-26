@@ -32,7 +32,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_MYDEMO, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
+	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MYDEMO));
 
+	MSG msg;
         if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
         {
             TranslateMessage(&msg);
@@ -42,9 +44,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MYDEMO));
 
-    MSG msg;
 
     // 主消息循环:
     while (GetMessage(&msg, nullptr, 0, 0))
