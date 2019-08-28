@@ -17,7 +17,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPram)
 {
 	switch (uMsg)
 	{
-	case WM_MOVE:
+	case WM_PAINT:
 	{
 		// 通过 msdn 可以知道当产生的消息是 WM_MOVE 时， wParam 没有被使用， lParam 表示左上角的坐标
 		WORD x = LOWORD(lPram);
