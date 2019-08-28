@@ -9,6 +9,7 @@ LRESULT CALLBACK WinPro(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		CreateWindow(L"Button", L"µã»÷°´Å¥", WS_CHILD | WS_VISIBLE, 10, 10, 150, 50, 
 			hWnd, (HMENU)0x1000, hInstance, NULL);
+		CreateWindow(L"Button", L"ÇÐ»»¸¸´°¿Ú", WS_VISIBLE | WS_CHILD,10,10, 120, 50, hWnd, (HMENU)0x1001, hInstance, NULL);
 	}break;
 	default:
 		break;

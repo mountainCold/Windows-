@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "计算器练习", "计算�
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "模拟钢琴", "模拟钢琴\模拟钢琴.vcxproj", "{EFED5CC8-9395-4627-8084-C5F20A56D2AC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "重写回调函数", "重写回调函数\重写回调函数.vcxproj", "{9471370A-2141-436E-98DD-392FE1DB1281}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{EFED5CC8-9395-4627-8084-C5F20A56D2AC}.Release|x64.Build.0 = Release|x64
 		{EFED5CC8-9395-4627-8084-C5F20A56D2AC}.Release|x86.ActiveCfg = Release|Win32
 		{EFED5CC8-9395-4627-8084-C5F20A56D2AC}.Release|x86.Build.0 = Release|Win32
+		{9471370A-2141-436E-98DD-392FE1DB1281}.Debug|x64.ActiveCfg = Debug|x64
+		{9471370A-2141-436E-98DD-392FE1DB1281}.Debug|x64.Build.0 = Debug|x64
+		{9471370A-2141-436E-98DD-392FE1DB1281}.Debug|x86.ActiveCfg = Debug|Win32
+		{9471370A-2141-436E-98DD-392FE1DB1281}.Debug|x86.Build.0 = Debug|Win32
+		{9471370A-2141-436E-98DD-392FE1DB1281}.Release|x64.ActiveCfg = Release|x64
+		{9471370A-2141-436E-98DD-392FE1DB1281}.Release|x64.Build.0 = Release|x64
+		{9471370A-2141-436E-98DD-392FE1DB1281}.Release|x86.ActiveCfg = Release|Win32
+		{9471370A-2141-436E-98DD-392FE1DB1281}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
