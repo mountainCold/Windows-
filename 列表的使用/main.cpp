@@ -52,11 +52,35 @@ INT_PTR CALLBACK DIAProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ListView_SetExtendedListViewStyle(hList, LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
 		InitListViewColumns(hList);
 		InItListViewItems(hList, 0,(LPWSTR)L"李白", (LPWSTR)L"24", (LPWSTR)L"长安学院");
-		InItListViewItems(hList, 1,(LPWSTR)L"李白", (LPWSTR)L"24", (LPWSTR)L"长安学院");
+		InItListViewItems(hList, 1,(LPWSTR)L"纪宁", (LPWSTR)L"14", (LPWSTR)L"黑白学院");
 	}break;
 	case WM_NOTIFY:
 	{
-	
+		NMHDR* pNmHdr = (NMHDR*)lParam;
+		if (pNmHdr->idFrom==IDC_LIST1)
+		{
+			NMLISTVIEW* pNML = (NMLISTVIEW*)lParam;
+			if (pNmHdr->code ==NM_RCLICK && pNML->iItem !=-1)
+			{
+				POINT Point = { 0 };
+				GetCursorPos(&Point);
+				
+				HMENU hMenu = LoadMenu(GetModuleHandle(NULL),MAKEINTRESOURCE(IDR_MENU1));
+				HMENU hSubMenu = GetSubMenu(hMenu,0);
+				TrackPopupMenu(hSubMenu, TPM_LEFTALIGN, Point.x, Point.y,0, hWnd, nullptr);
+			}
+			else if (pNmHdr->code == NM_CLICK && pNML->iItem != -1)
+			{
+				// 通过结构体中保存的行和列获取到点击的内容
+				WCHAR Buffer[100] = { 0 };
+
+				// pNmHdr->hwndFrom 和 pNmListView->hdr.hwndFrom 是一样的
+				ListView_GetItemText(pNmHdr->hwndFrom, pNML->iItem,
+					pNML ->iSubItem, Buffer, 100);
+
+				MessageBox(hWnd, Buffer, L"列表控件", MB_OK);
+			}
+		}
 	}break;
 	case WM_CLOSE:
 	{
