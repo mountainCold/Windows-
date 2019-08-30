@@ -64,9 +64,19 @@ INT_PTR CALLBACK DiaLProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	return false;
 }
-LRESULT CALLBACK WinProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DiaFunc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	switch (uMsg)
+	{
+	case WM_CLOSE:
+	{
+		DestroyWindow(hWnd);
+		//PostQuitMessage(0);
+	}break;
+	default:
+		return false;
+	}
+	return true;
 }
 LRESULT CALLBACK WinPro(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -80,11 +90,14 @@ LRESULT CALLBACK WinPro(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		CreateWindow(L"Button", L"弹出对话框", WS_CHILD | WS_VISIBLE, 40, 40, 120, 40, hWnd, 
-			(HMENU)0x1000, hInstance, NULL);
+			(HMENU)0x1000, hInstance, NULL); 
+		CreateWindow(L"Button", L"弹出非模态对话框", WS_CHILD | WS_VISIBLE, 200, 40, 120, 40, hWnd,
+			(HMENU)0x1010, hInstance, NULL);
 		CreateWindow(L"Button", L"设置菜单", WS_CHILD | WS_VISIBLE, 40, 100, 120, 40, hWnd, 
 			(HMENU)0x1001, hInstance, NULL); 
 		CreateWindow(L"Button", L"设置图标", WS_CHILD | WS_VISIBLE, 40, 160, 120, 40, hWnd,
 			(HMENU)0x1002, hInstance, NULL);
+		
 		return 0;
 	}break;
 	case WM_COMMAND:
@@ -95,20 +108,34 @@ LRESULT CALLBACK WinPro(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			//模态对话框
 			DialogBox(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, DiaLProc);
-			return 0;
+		}break;
+		case 0x1010:
+		{
+			HWND hDiA=CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, DiaFunc);
+			ShowWindow(hDiA, SW_SHOWNORMAL);
+			//和窗口共用一个消息泵
+// 			MSG msg = { 0 };
+// 			while (GetMessage(&msg, hWnd, 0, 0))
+// 			{
+// 				// 转换函数: 将一组 WM_KEYDOWN 和 WM_KEYUP 组合成一个 WM_CHAR
+// 				// 保留原有的两个消息，将新生成的消息放置到消息队列中
+// 				TranslateMessage(&msg);
+// 				DispatchMessage(&msg);
+// 			}
+
 		}break;
 		case 0x1001:
 		{
 			HMENU hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU1));
 			SetMenu(hWnd, hMenu);
-			return 0;
+			
 		}
 		case 0x1002:
 		{
 			//加载自定义图标 并修改
 			HICON hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 			SetClassLong(hWnd, GCL_HICON, (LONG)hIcon);
-			return 0;
+			
 		}
 		default:
 			break;
@@ -117,12 +144,12 @@ LRESULT CALLBACK WinPro(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}break;
 	case WM_RBUTTONDOWN:
 	{
-		POINT point = { LOWORD(lParam), HIWORD(lParam) };		ClientToScreen(hWnd, &point);
+		POINT point = { LOWORD(lParam), HIWORD(lParam) };
+		ClientToScreen(hWnd, &point);
 		HMENU hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU1));
 		HMENU hSubMenu = GetSubMenu(hMenu,0);
 		//弹出菜单
 		TrackPopupMenu(hSubMenu,TPM_LEFTALIGN,point.x,point.y,NULL,hWnd,NULL);
-		return 0;
 	}  break;
 	case WM_PAINT:
 	{
@@ -131,17 +158,20 @@ LRESULT CALLBACK WinPro(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		DrawText(hdc, L"艾欧尼亚，昂扬不灭！", -1, &rect, DT_SINGLELINE |
 			DT_CENTER | DT_VCENTER);
 		EndPaint(hWnd, &ps);
-		return 0;
 	}break;
 	case WM_CLOSE:
 	{
+		//HWND hD = FindWindow(NULL, L"对话框");
+		//HWND hD = GetDlgItem(hWnd, IDD_DIALOG1);
+		//SendMessage(hD, WM_CLOSE, 0, 0);
+		DestroyWindow(hWnd);
 		PostQuitMessage(0);
-		return 0;
-	}
+	}break;
 	default:
-		break;
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+
+	return 0;
 }
 int WINAPI WinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,

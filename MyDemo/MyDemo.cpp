@@ -34,10 +34,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MyRegisterClass(hInstance);
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MYDEMO));
 
-	MSG msg;
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
+
+        
     // 执行应用程序初始化:
     if (!InitInstance (hInstance, nCmdShow))
     {
@@ -45,10 +43,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
 
-
+	MSG msg = { 0 };
     // 主消息循环:
     while (GetMessage(&msg, nullptr, 0, 0))
     {
+		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        {
+            TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
     }
